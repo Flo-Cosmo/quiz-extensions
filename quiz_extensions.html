@@ -1,0 +1,131 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quiz : Extensions de Navigateur</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f8f9fa;
+      padding: 2rem;
+      max-width: 800px;
+      margin: auto;
+    }
+    h1, h2 {
+      color: #343a40;
+    }
+    .question {
+      margin-bottom: 1.5rem;
+      padding: 1rem;
+      background-color: #fff;
+      border: 1px solid #dee2e6;
+      border-radius: 8px;
+    }
+    button {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      font-size: 1rem;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .result {
+      margin-top: 2rem;
+      padding: 1rem;
+      background-color: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+      border-radius: 8px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Quiz : Extensions de Navigateur</h1>
+  <form id="quizForm"></form>
+  <div class="result" id="result" style="display: none;"></div>
+
+  <script>
+    const questions = [
+      {
+        q: "Qu’est-ce qu’une extension de navigateur ?",
+        options: ["Un antivirus", "Un petit logiciel ajouté au navigateur", "Un outil pour ajouter des fonctionnalités", "Un site web"],
+        correct: [1, 2]
+      },
+      {
+        q: "Où installer une extension en toute sécurité ?",
+        options: ["Sur le site officiel du navigateur", "Depuis n’importe quel site Internet", "En .exe téléchargé"],
+        correct: [0]
+      },
+      {
+        q: "Quelle plateforme utilise le Chrome Web Store ?",
+        options: ["Google Chrome", "Safari", "Firefox"],
+        correct: [0]
+      },
+      {
+        q: "Que faut-il vérifier avant d’installer une extension ?",
+        options: ["Les avis et la note", "Le nombre d’utilisateurs", "Si elle est gratuite", "La couleur de l’icône"],
+        correct: [0,1]
+      },
+      {
+        q: "Quelle extension bloque les publicités ?",
+        options: ["uBlock Origin", "LastPass", "Grammarly"],
+        correct: [0]
+      },
+      {
+        q: "Comment désinstaller une extension sur Chrome ?",
+        options: ["Clic droit → ‘Supprimer de Chrome’", "Glisser l’icône vers la corbeille", "Désinstaller tout le navigateur"],
+        correct: [0]
+      },
+      {
+        q: "Quelle autorisation est souvent demandée par une extension ?",
+        options: ["Lecture des mails", "Accès aux données des sites visités", "Accès à vos photos"],
+        correct: [1]
+      },
+      {
+        q: "Sur Safari, où activer une extension après installation ?",
+        options: ["Préférences Système", "App Store directement", "Safari > Réglages > Extensions"],
+        correct: [2]
+      },
+      {
+        q: "Pourquoi garder ses extensions à jour ?",
+        options: ["Pour la sécurité", "Pour changer son icône", "Pour désinstaller automatiquement"],
+        correct: [0]
+      },
+      {
+        q: "Que faire après désinstallation d’une extension ?",
+        options: ["Redémarrer le navigateur", "Réinstaller une autre extension", "Formater l’ordinateur"],
+        correct: [0]
+      }
+    ];
+
+    const form = document.getElementById("quizForm");
+    questions.forEach((q, i) => {
+      const div = document.createElement("div");
+      div.className = "question";
+      div.innerHTML = `<h2>Q${i+1}. ${q.q}</h2>` + q.options.map((opt, j) =>
+        `<label><input type="checkbox" name="q${i}" value="${j}"> ${opt}</label><br>`
+      ).join("");
+      form.appendChild(div);
+    });
+
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.innerText = "Soumettre";
+    btn.onclick = () => {
+      let score = 0;
+      questions.forEach((q, i) => {
+        const checked = [...form[`q${i}`]].filter(input => input.checked).map(input => parseInt(input.value));
+        const isCorrect = q.correct.length === checked.length && q.correct.every(c => checked.includes(c));
+        if (isCorrect) score++;
+      });
+      const result = document.getElementById("result");
+      result.style.display = "block";
+      result.innerHTML = `<strong>Résultat :</strong> Vous avez obtenu ${score} / ${questions.length} bonnes réponses.`;
+    };
+    form.appendChild(btn);
+  </script>
+</body>
+</html>
